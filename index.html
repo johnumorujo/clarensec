@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Clarensec | Maintenance Mode</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      html,
+      body {
+        height: 100%;
+        width: 100%;
+        margin: 0;
+        padding: 0;
+        font-family: "Inter", sans-serif;
+        color: #141c1c;
+        background-color: #f2f2ef;
+        background-image: url("ICON.png");
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+        overflow-x: hidden;
+      }
+
+      body {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        min-height: 100vh;
+      }
+
+      body::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background-color: rgba(242, 242, 239, 0.75);
+        z-index: 0;
+      }
+
+      .top-bar {
+        background-color: rgb(20, 6, 28);
+        width: 100%;
+        padding: 1rem 2rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        position: absolute;
+        top: 0;
+        left: 0;
+        z-index: 10;
+        box-sizing: border-box;
+      }
+
+      .top-bar img {
+        height: 50px;
+      }
+
+      .top-bar a {
+        color: #f2f2ef;
+        text-decoration: none;
+        font-size: 1.1rem;
+      }
+
+      .top-bar a:hover {
+        text-decoration: underline;
+      }
+
+      header,
+      main {
+        position: relative;
+        z-index: 1;
+        width: 100%;
+      }
+
+      main {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: flex-start;
+        max-width: 100%;
+        width: 100%;
+        padding-top: 6rem;
+      }
+
+      h1 {
+        color: #141c1c;
+        font-size: 2rem;
+        margin-bottom: 0.5rem;
+        width: 100%;
+        padding-top: 1rem;
+      }
+
+      p {
+        color: #141c1c;
+        margin: 0.5rem 0 1.5rem;
+        width: 100%;
+      }
+
+      form {
+        background-color: rgba(20, 6, 28, 0.85);
+        padding: 2rem;
+        border-radius: 12px;
+        max-width: 400px;
+        width: 100%;
+        color: #f2f2ef;
+        margin-bottom: 1rem;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        box-sizing: border-box;
+      }
+
+      input,
+      textarea,
+      button {
+        width: 100%;
+        padding: 0.75rem;
+        margin-bottom: 1rem;
+        border: none;
+        border-radius: 8px;
+        font-size: 1rem;
+      }
+
+      input,
+      textarea {
+        background-color: #141c1c;
+        color: #f2f2ef;
+      }
+
+      button {
+        background-color: #471863;
+        color: #f2f2ef;
+        font-weight: bold;
+        cursor: pointer;
+      }
+
+      #form-status {
+        color: #ffffff;
+        font-size: 0.95rem;
+      }
+
+      .contact-info {
+        font-size: 0.9rem;
+        color: #141c1c;
+      }
+
+      .contact-info a {
+        color: #141c1c;
+        text-decoration: underline;
+      }
+
+      @media (max-width: 768px) {
+        h1 {
+          font-size: 1.5rem;
+        }
+
+        .top-bar {
+          padding: 0.8rem;
+        }
+
+        .top-bar a {
+          font-size: 1rem;
+        }
+
+        form {
+          padding: 1.5rem;
+        }
+
+        input,
+        textarea,
+        button {
+          padding: 0.75rem;
+        }
+
+        main {
+          padding-top: 5rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="top-bar">
+      <img src="logo white .png" alt="Clarensec Logo" />
+      <!--<a href="about.html">About</a>-->
+    </div>
+
+    <main>
+      <h1>Scheduled maintenance in progress.</h1>
+      <p>
+        You can
+        <a href="mailto:sales@clarensec.com">send us an email</a><br />
+        or fill out the form below.
+      </p>
+
+      <form id="contact-form">
+        <input type="text" name="name" placeholder="Your Name" required />
+        <input
+          type="text"
+          name="organization"
+          placeholder="Organization"
+          required
+        />
+        <input type="email" name="email" placeholder="Your Email" required />
+        <input type="text" name="topic" placeholder="Topic" required />
+        <textarea
+          name="message"
+          rows="5"
+          placeholder="Your Message"
+          required
+        ></textarea>
+        <button type="submit">Send Message</button>
+        <p id="form-status"></p>
+      </form>
+
+      <div class="contact-info">
+        <p>
+          For urgent queries, call
+          <a href="tel:+2348143101878"><strong>08143101878</strong></a>
+        </p>
+      </div>
+    </main>
+
+    <script>
+      const form = document.getElementById("contact-form");
+      const status = document.getElementById("form-status");
+
+      form.addEventListener("submit", async (e) => {
+        e.preventDefault();
+        const data = new FormData(form);
+        const action = "https://formspree.io/f/xdkgnyje";
+
+        try {
+          const response = await fetch(action, {
+            method: "POST",
+            body: data,
+            headers: {
+              Accept: "application/json",
+            },
+          });
+
+          if (response.ok) {
+            status.textContent = "Thanks! Your message has been sent.";
+            form.reset();
+          } else {
+            status.textContent = "Oops! There was a problem. Try again later.";
+          }
+        } catch (error) {
+          status.textContent = "Network error. Please check your connection.";
+        }
+      });
+    </script>
+  </body>
+</html>
